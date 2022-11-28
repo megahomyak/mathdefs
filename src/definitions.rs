@@ -1,39 +1,39 @@
 pub struct Number<Value> {
-    value: Value,
+    pub value: Value,
 }
 pub struct Addition<Augend, Addend> {
-    augend: Augend,
-    addend: Addend,
+    pub augend: Augend,
+    pub addend: Addend,
 }
 pub struct Subtraction<Minuend, Subtrahend> {
-    minuend: Minuend,
-    subtrahend: Subtrahend,
+    pub minuend: Minuend,
+    pub subtrahend: Subtrahend,
 }
 pub struct Multiplication<Multiplier, Multiplicand> {
-    multiplier: Multiplier,
-    multiplicand: Multiplicand,
+    pub multiplier: Multiplier,
+    pub multiplicand: Multiplicand,
 }
 pub struct Division<Dividend, Divisor> {
-    dividend: Dividend,
-    divisor: Divisor,
+    pub dividend: Dividend,
+    pub divisor: Divisor,
 }
 pub struct Sine<Angle> {
-    angle: Angle,
+    pub angle: Angle,
 }
 pub struct Cosine<Angle> {
-    angle: Angle,
+    pub angle: Angle,
 }
 pub struct Tangent<Angle> {
-    angle: Angle,
+    pub angle: Angle,
 }
 pub struct Cotangent<Angle> {
-    angle: Angle,
+    pub angle: Angle,
 }
 pub struct Exponentiation<Base, Exponent> {
-    base: Base,
-    exponent: Exponent,
+    pub base: Base,
+    pub exponent: Exponent,
 }
 pub struct Logarithm<Base, Antilogarithm> {
-    base: Base,
-    antilogarithm: Antilogarithm,
+    pub base: Base,
+    pub antilogarithm: Antilogarithm,
 }
