@@ -10,7 +10,7 @@ trait Evaluatable {
 
 macro_rules! evaluatable_primitive {
     ($t:ty) => {
-        impl Evaluatable for i32 {
+        impl Evaluatable for $t {
             type Output = Self;
 
             fn evaluate(self) -> Self::Output {
@@ -20,7 +20,20 @@ macro_rules! evaluatable_primitive {
     };
 }
 
+evaluatable_primitive!(i8);
+evaluatable_primitive!(i16);
 evaluatable_primitive!(i32);
+evaluatable_primitive!(i64);
+evaluatable_primitive!(i128);
+evaluatable_primitive!(u8);
+evaluatable_primitive!(u16);
+evaluatable_primitive!(u32);
+evaluatable_primitive!(u64);
+evaluatable_primitive!(u128);
+evaluatable_primitive!(isize);
+evaluatable_primitive!(usize);
+evaluatable_primitive!(f32);
+evaluatable_primitive!(f64);
 
 impl<Augend, Addend, EvaluatedAugend, EvaluatedAddend, Output> Evaluatable
     for definitions::Addition<Augend, Addend>
