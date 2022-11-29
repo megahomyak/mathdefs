@@ -1,6 +1,3 @@
-pub struct Number<Value> {
-    pub value: Value,
-}
 pub struct Addition<Augend, Addend> {
     pub augend: Augend,
     pub addend: Addend,

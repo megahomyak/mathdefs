@@ -1,4 +1,4 @@
-use std::ops::Add;
+use std::ops::{Add, Mul};
 
 use crate::definitions;
 
@@ -8,13 +8,19 @@ trait Evaluatable {
     fn evaluate(self) -> Self::Output;
 }
 
-impl<Value> Evaluatable for definitions::Number<Value> {
-    type Output = Value;
+macro_rules! evaluatable_primitive {
+    ($t:ty) => {
+        impl Evaluatable for i32 {
+            type Output = Self;
 
-    fn evaluate(self) -> Value {
-        self.value
-    }
+            fn evaluate(self) -> Self::Output {
+                self
+            }
+        }
+    };
 }
+
+evaluatable_primitive!(i32);
 
 impl<Augend, Addend, EvaluatedAugend, EvaluatedAddend, Output> Evaluatable
     for definitions::Addition<Augend, Addend>
@@ -30,6 +36,20 @@ where
     }
 }
 
+impl<Multiplier, Multiplicand, EvaluatedMultiplier, EvaluatedMultiplicand, Output> Evaluatable
+    for definitions::Multiplication<Multiplier, Multiplicand>
+where
+    Multiplier: Evaluatable<Output = EvaluatedMultiplier>,
+    Multiplicand: Evaluatable<Output = EvaluatedMultiplicand>,
+    EvaluatedMultiplicand: Mul<EvaluatedMultiplier, Output = Output>,
+{
+    type Output = Output;
+
+    fn evaluate(self) -> Self::Output {
+        self.multiplicand.evaluate() * self.multiplier.evaluate()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::Evaluatable;
@@ -40,15 +60,34 @@ mod tests {
         assert_eq!(
             Addition {
                 augend: Addition {
-                    augend: Number { value: 1 },
-                    addend: Number { value: 2 },
+                    augend: 1,
+                    addend: 2,
                 },
                 addend: Addition {
-                    addend: Number { value: 3 },
-                    augend: Number { value: 4 },
+                    addend: 3,
+                    augend: 4,
                 }
-            }.evaluate(),
+            }
+            .evaluate(),
             10
+        );
+    }
+
+    #[test]
+    fn test_multiplication() {
+        assert_eq!(
+            Multiplication {
+                multiplier: Multiplication {
+                    multiplier: 2,
+                    multiplicand: 3,
+                },
+                multiplicand: Multiplication {
+                    multiplicand: 4,
+                    multiplier: 5,
+                },
+            }
+            .evaluate(),
+            120
         );
     }
 }
